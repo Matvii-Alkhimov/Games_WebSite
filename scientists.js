@@ -92,6 +92,8 @@ const elements = {
     scientistsArr: [],
     buttonsContainerEl: document.createElement("div"),
     scientistImagesArr: [],
+    buttons: [],
+    pickedButton: undefined,
 }
 
 elements.buttonsContainerEl.classList.add("buttons-container");
@@ -123,156 +125,264 @@ elements.ScientistsList.before(taskText);
 
 
 
+const functions = {
+  createButton(i) {
+    const button = document.createElement("button");
+    elements.buttons.push(button);
+    button.textContent = i.name;
+    button.classList.add("scientists-btn");
+    button.classList.add(i.num);
+
+    elements.buttonsContainerEl.append(button);
+    elements.ScientistContainer.append(elements.buttonsContainerEl);
+  },
+  pickCardFunction(event) {
+    const index = elements.buttons.indexOf(elements.pickedButton)
+    if (!event.target.classList.contains("scientist-item-picked")) {
+      buttons[index].arr.push(event.target);
+      event.target.classList.add("scientist-item-picked");
+    } else {
+      event.target.classList.remove("scientist-item-picked");
+      buttons[index].arr.splice(buttons[index].arr.indexOf(event.target), 1)
+    }
+  },
+  putCardOnListFunction(event) {
+    if (event.target.nodeName !== "LI") {
+      return
+    }
+    const index = elements.buttons.indexOf(elements.pickedButton)
+    if (!event.target.classList.contains("scientist-item-picked")) {
+      const clue = document.createElement("p");
+      clue.classList.add("clue-text-list");
+      buttons[index].clueArr.push(clue);
+      buttons[index].arr.push(event.target);
+      clue.textContent = buttons[index].arr.length;
+      event.target.classList.add("scientist-item-picked");
+      event.target.append(clue);
+    } else {
+      const clueIndex = buttons[index].clueArr.indexOf(event.target.lastChild)
+      const clueToDelete = event.target.lastChild
+      event.target.classList.remove("scientist-item-picked");
+      buttons[index].arr.splice(clueIndex, 1);
+      buttons[index].clueArr.splice(clueIndex, 1);
+      clueToDelete.remove();
+      buttons[index].clueArr.forEach((item) => {
+        item.textContent = buttons[index].clueArr.indexOf(item) + 1;
+      } )
+    }
+    
+  },
+  leaveGameFunction() {
+    const index = elements.buttons.indexOf(elements.pickedButton);
+    buttons[index].clueArr.forEach((item) => {
+      item.remove()
+    })
+    elements.scientistsArr.forEach((item) => item.classList.remove("true", "false", "didnt-pick", "scientist-item-picked"));
+    buttons[index].clueArr = [];
+    buttons[index].arr = [];
+    elements.scientistsArr.forEach((item) => {
+      taskText.textContent = `Завдання: ${buttons[index].name} `;
+      const text = Array.from(document.querySelectorAll(`.scientist-text`));
+      text.forEach((item) => {
+        item.style.display = "block";
+        item.classList.remove("clue-text", "clue-text-list");
+      })
+      item.style.animationName = "";
+      item.style.backgroundImage = `none`;
+      elements.pickedButton.textContent = buttons[index].name;
+    })
+    elements.buttons.forEach((item) => item.toggleAttribute("disabled"));
+    elements.pickedButton.toggleAttribute("disabled");
+    elements.pickedButton.removeEventListener("click", functions.leaveGameFunction);
+    elements.pickedButton.classList.toggle("asd")
+    taskText.textContent = "Обери завдання";
+    elements.buttonsContainerEl.addEventListener("click", switchCardFunction);
+  }
+}
+
 const buttons = [
     {
       name: "Які вчені народилися в 19 ст.",
+      num: 0,
       arr: [],
-      createButton() {
-        const button = document.createElement("button");
-        button.classList.add("scientists-btn");
-        button.textContent = this.name;
-
-        elements.buttonsContainerEl.append(button);
-        elements.ScientistContainer.append(elements.buttonsContainerEl);
-
-        const pickCardFunction = (event) => {
-            if (!event.target.classList.contains("scientist-item-picked")) {
-                this.arr.push(event.target);
-                event.target.classList.add("scientist-item-picked");
-                console.log(this.arr);
-            } else {
-                const index = this.arr.indexOf(event.target);
-                this.arr.splice(index, 1)
-                event.target.classList.remove("scientist-item-picked");
-                console.log(this.arr);
-            }
-        }
-
-        const checkCardFunction = () => {
-            this.arr.forEach((item) => {
-              const answer = document.createElement("p");
-              answer.classList.add("scientist-answer");
-              const dateEl = item.lastChild;
-              const date = Number.parseInt(dateEl.textContent)
-              if (date > 1800 && date < 1900) {
-                alert("True")
-              } else {
-                alert("False")
-              }
-            })
-        }
-
-        const switchCardFunction = (event) => {
-          event.target.textContent = "Перевірити"
-            elements.scientistsArr.forEach((item) => {
-              taskText.textContent = `Завдання: ${this.name} `;
-              const index = elements.scientistsArr.indexOf(item);
-              const text = Array.from(document.querySelectorAll(`.scientist-text`));
-              text.forEach((item) => item.style.display = "none")
-              item.style.animationName = "showImages";
-              item.style.backgroundImage = `url(./images_and_icons/images/scientists/${scientists[index].name}_${scientists[index].surname}.jpg)`;
-              item.style.cursor = "pointer";
-              item.addEventListener("click", pickCardFunction);
-            })
-
-            button.addEventListener("click", checkCardFunction);
-            button.removeEventListener("click", switchCardFunction);
-        }
-        
-        button.addEventListener("click", switchCardFunction);
-      }
+      clueArr: [],
+      checkCardFunction() {
+        const index = elements.buttons.indexOf(elements.pickedButton);
+        elements.pickedButton.textContent = "Вийти";
+        buttons[index].arr.forEach((item) => {
+          const answer = document.createElement("p");
+          answer.classList.add("scientist-answer");
+          const dateEl = item.lastChild;
+          const date = Number.parseInt(dateEl.textContent);
+          const clue = document.createElement("p");
+          clue.classList.add("clue-text");
+          buttons[index].clueArr.push(clue);
+          if (date > 1800 && date < 1900) {
+            item.classList.add("true");
+            clue.textContent = "Правильно!";
+          } else {
+            item.classList.add("false");
+            clue.textContent = "Неправильно!";
+          }
+          item.append(clue);
+        })
+        elements.scientistsArr.forEach((item) => {
+          item.style.cursor = "auto";
+          const dateEl = item.lastChild;
+          const date = Number.parseInt(dateEl.textContent);
+          if (date > 1800 && date < 1900 && !item.classList.contains("true")) {
+            item.classList.add("didnt-pick");
+            const clue = document.createElement("p");
+            clue.classList.add("clue-text");
+            buttons[index].clueArr.push(clue);
+            clue.textContent = "Забув вибрати";
+            item.append(clue);
+          }
+          item.removeEventListener("click", functions.pickCardFunction);
+        })
+        elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
+        elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
+      },
     },
+    // 
     {
       name: "Відсортувати вчених за алфавітом",
-      createButton() {
-        const button = document.createElement("button");
-        button.classList.add("scientists-btn")
-        button.textContent = this.name;
-
-        elements.buttonsContainerEl.append(button);
-        elements.ScientistContainer.append(elements.buttonsContainerEl);
-      }
+      num: 1,
+      arr: [],
+      clueArr: [],
+      checkCardFunction() {
+        const index = elements.buttons.indexOf(elements.pickedButton);
+        if (buttons[index].arr.length !== elements.scientistsArr.length) {
+          return alert("Обери усіх вчених перед тим як перевірити чи правильно ти їх розташував!");
+        }
+        elements.pickedButton.textContent = "Вийти";
+        const trueList = [];
+        buttons[index].arr.forEach((item) => trueList.push(item.firstChild.textContent));
+        trueList.sort();
+        buttons[index].arr.forEach((item) => {
+          
+          for (let i = 0; i < buttons[index].arr.length; i += 1) {
+            const neededClue = buttons[index].arr[i].firstChild.textContent;
+            const rightAnswer = trueList[i];
+            neededClue === rightAnswer ? buttons[index].arr[i].classList.add("true") : buttons[index].arr[i].classList.add("false");
+            const text = Array.from(document.querySelectorAll(`li > .scientist-name`));
+            text.forEach((item) => {
+              item.style.display = "block";
+              item.classList.add("clue-text");
+            })
+            
+          }
+        })
+        buttons[index].clueArr.forEach((item) => {
+          const parent = item.parentNode;
+          const answerPicked = item.textContent;
+          const rightAnswer = trueList.findIndex((answer) => answer === parent.firstChild.textContent);
+          console.log(answerPicked)
+          console.log(rightAnswer + 1)
+          item.classList.remove("clue-text", "clue-text-list");
+          item.classList.add("true-clue-text");
+          if (answerPicked != rightAnswer + 1) {
+            item.innerHTML = `
+            <span class="wrong-answer"> ${answerPicked} </span>    ${rightAnswer + 1}
+            `
+          }
+          elements.scientistsArr.forEach((item) => {
+            item.removeEventListener("click", functions.putCardOnListFunction);
+            item.style.cursor = "auto";
+          }) 
+        });
+        elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
+        elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
+      },
     },
+    // 
     {
       name: "Відсортувати вчених за кількістю прожитих років",
-      createButton() {
-        const button = document.createElement("button");
-        button.classList.add("scientists-btn")
-        button.textContent = this.name;
-
-        elements.buttonsContainerEl.append(button);
-        elements.ScientistContainer.append(elements.buttonsContainerEl);
-      }
+      num: 2,
+      arr: [],
+      clueArr: [],
     },
+    // 
     {
       name: "Знайти вченого, який народився найпізніше",
-      createButton() {
-        const button = document.createElement("button");
-        button.classList.add("scientists-btn")
-        button.textContent = this.name;
-
-        elements.buttonsContainerEl.append(button);
-        elements.ScientistContainer.append(elements.buttonsContainerEl);
-      }
+      num: 3,
+      arr: [],
+      clueArr: [],
     },
+    // 
     {
       name: "Знайти рік народження Albert Einstein",
-      createButton() {
-        const button = document.createElement("button");
-        button.classList.add("scientists-btn")
-        button.textContent = this.name;
-
-        elements.buttonsContainerEl.append(button);
-        elements.ScientistContainer.append(elements.buttonsContainerEl);
-      }
+      num: 4,
+      arr: [],
+      clueArr: [],
     },
+    // 
     {
       name: "Знайти вчених, прізвища яких починаються на літеру 'С'",
-      createButton() {
-        const button = document.createElement("button");
-        button.classList.add("scientists-btn");
-        button.textContent = this.name;
-
-        elements.buttonsContainerEl.append(button);
-        elements.ScientistContainer.append(elements.buttonsContainerEl);
-      }
+      num: 5,
+      arr: [],
+      clueArr: [],
     },
+    // 
     {
       name: "Видалити всіх вчених, ім’я яких починається на 'А'",
-      createButton() {
-        const button = document.createElement("button");
-        button.textContent = this.name;
-        button.classList.add("scientists-btn")
-
-        elements.buttonsContainerEl.append(button);
-        elements.ScientistContainer.append(elements.buttonsContainerEl);
-      }
+      num: 6,
+      arr: [],
+      clueArr: [],
     },
+    // 
     {
       name: "Знайти вченого, який прожив найдовше і вченого, який прожив найменше",
-      createButton() {
-        const button = document.createElement("button");
-        button.textContent = this.name;
-        button.classList.add("scientists-btn")
-
-        elements.buttonsContainerEl.append(button);
-        elements.ScientistContainer.append(elements.buttonsContainerEl);
-      }
+      num: 7,
+      arr: [],
+      clueArr: [],
     },
+    // 
     {
       name: "Знайти вчених, в яких співпадають перші літери імені і прізвища",
-      createButton() {
-        const button = document.createElement("button");
-        button.textContent = this.name;
-        button.classList.add("scientists-btn")
-
-        elements.buttonsContainerEl.append(button);
-        elements.ScientistContainer.append(elements.buttonsContainerEl);
-      }
+      num: 8,
+      arr: [],
+      clueArr: [],
     }
 ];
   
 buttons.forEach((item) => {
-    item.createButton();
+    functions.createButton(item);
 })
+
+function switchCardFunction(event) {
+  if (event.target.nodeName !== "BUTTON") {
+    return
+  }
+
+  elements.pickedButton = event.target;
+  if (elements.pickedButton.classList.contains("asd")) {
+    elements.pickedButton.classList.toggle("asd");
+    return
+  }
+  const btnIndex = elements.buttons.indexOf(event.target);
+  event.target.textContent === "Вийти" ? event.target.textContent = "Закрити" : event.target.textContent = "Перевірити";
+  taskText.textContent = `Завдання: ${buttons[btnIndex].name} `;
+  elements.scientistsArr.forEach((item) => {
+    const index = elements.scientistsArr.indexOf(item);
+    const text = Array.from(document.querySelectorAll(`.scientist-text`));
+    text.forEach((item) => item.style.display = "none")
+    item.style.animationName = "showImages";
+    item.style.backgroundImage = `url(./images_and_icons/images/scientists/${scientists[index].name}_${scientists[index].surname}.jpg)`;
+    item.style.cursor = "pointer";
+    if (btnIndex === 1 || btnIndex === 2) {
+      item.addEventListener("click", functions.putCardOnListFunction);
+    } else {
+      item.addEventListener("click", functions.pickCardFunction);
+    }
+  })
+  elements.buttons.forEach((button) => button.toggleAttribute("disabled"));
+  elements.buttons[btnIndex].toggleAttribute("disabled");
+
+  event.target.addEventListener("click", buttons[btnIndex].checkCardFunction);
+  elements.buttonsContainerEl.removeEventListener("click", switchCardFunction);
+}
+
+elements.buttonsContainerEl.addEventListener("click", switchCardFunction);
+
 

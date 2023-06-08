@@ -882,6 +882,7 @@ img {
     animation-duration: 1000ms;
     background-size: cover;
     transition: all 250ms linear;
+    position: relative;
 }
 
 .scientist-name,
@@ -937,4 +938,45 @@ img {
     border: none;
     box-sizing: border-box;
     margin-bottom: 20px;
+}
+
+.true {
+    border: 5px #039900 solid;
+}
+
+.false {
+    border: 5px #990000 solid;
+}
+
+.didnt-pick {
+    border: 5px blue solid;
+    scale: 1.2;
+}
+
+.didnt-pick-list {
+    border: 5px blue solid;
+}
+
+.clue-text {
+    width: 100%;
+    background-color: white;
+}
+
+.true-clue-text {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* width: 40px; */
+    border-radius: 10px;
+    /* border: 2px black solid; */
+}
+
+.clue-text-list {
+    width: 100%;
+    background-color: white;
+}
+
+.wrong-answer {
+    text-decoration: line-through;
 }
