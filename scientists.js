@@ -197,7 +197,26 @@ const functions = {
     elements.pickedButton.classList.toggle("asd")
     taskText.textContent = "Обери завдання";
     elements.buttonsContainerEl.addEventListener("click", switchCardFunction);
+  },
+  addInputFunction(event) {
+    if (event.target.nodeName !== "BUTTON") {
+      return
+    }
+    const input = document.querySelector(".scientists-btn > .scientist-input")
+    event.target.innerHTML = "Вийти";
+    const name = "Albert Einstein";
+    const neededObj = scientists.find((item) => `${item.name} ${item.surname}` === name);
+    const born = neededObj.born;
+    Number(input.value) === born ? taskText.textContent = "Молодець! Правильно!" : taskText.textContent = "Неправильно!";
+    const text = Array.from(document.querySelectorAll(`li > .scientist-year`));
+      text.forEach((item) => {
+        item.style.display = "block";
+        item.classList.add("clue-text");
+      })
+      elements.pickedButton.removeEventListener("click", functions.addInputFunction);
+      elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
   }
+  
 }
 
 const buttons = [
@@ -277,8 +296,6 @@ const buttons = [
           const parent = item.parentNode;
           const answerPicked = item.textContent;
           const rightAnswer = trueList.findIndex((answer) => answer === parent.firstChild.textContent);
-          console.log(answerPicked)
-          console.log(rightAnswer + 1)
           item.classList.remove("clue-text", "clue-text-list");
           item.classList.add("true-clue-text");
           if (answerPicked != rightAnswer + 1) {
@@ -301,6 +318,58 @@ const buttons = [
       num: 2,
       arr: [],
       clueArr: [],
+      checkCardFunction() {
+        const index = elements.buttons.indexOf(elements.pickedButton);
+        if (buttons[index].arr.length !== elements.scientistsArr.length) {
+          return alert("Обери усіх вчених перед тим як перевірити чи правильно ти їх розташував!");
+        }
+        elements.pickedButton.textContent = "Вийти";
+        const trueList = [];
+        buttons[index].arr.forEach((item) => {
+          const i = buttons[index].arr.indexOf(item);
+          const years = scientists[i].dead - scientists[i].born;
+          trueList.push(years);
+        });
+        trueList.sort();
+          
+          for (let i = 0; i < buttons[index].arr.length; i += 1) {
+            const name = buttons[index].arr[i].firstChild.textContent;
+            const neededObj = scientists.find((item) => {
+              const objName = `${item.name} ${item.surname}`;
+              return name === objName;
+            })
+            const neededAge = neededObj.dead - neededObj.born;
+            const rightAnswer = trueList[i];
+            neededAge === rightAnswer ? buttons[index].arr[i].classList.add("true") : buttons[index].arr[i].classList.add("false");
+            const text = Array.from(document.querySelectorAll(`li > .scientist-year`));
+            text.forEach((item) => {
+              item.style.display = "block";
+              item.classList.add("clue-text");
+            })
+            
+          }
+        buttons[index].clueArr.forEach((item) => {
+          const parent = item.parentNode;
+          const text = parent.firstChild.textContent;
+          const answerPicked = item.textContent;
+          const textIndex = scientists.findIndex((elem) => `${elem.name} ${elem.surname}` === text)
+          const years = scientists[textIndex].dead - scientists[textIndex].born;
+          const rightAnswer = trueList.findIndex((item) => item === years);
+          item.classList.remove("clue-text", "clue-text-list");
+          item.classList.add("true-clue-text");
+          if (parent.classList.contains("false")) {
+            item.innerHTML = `
+            <span class="wrong-answer"> ${answerPicked} </span>    ${rightAnswer + 1}
+            `
+          }
+          elements.scientistsArr.forEach((item) => {
+            item.removeEventListener("click", functions.putCardOnListFunction);
+            item.style.cursor = "auto";
+          }) 
+        });
+        elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
+        elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
+      },
     },
     // 
     {
@@ -308,6 +377,46 @@ const buttons = [
       num: 3,
       arr: [],
       clueArr: [],
+      checkCardFunction() {
+        const index = elements.buttons.indexOf(elements.pickedButton);
+        elements.pickedButton.textContent = "Вийти";
+        const dates = [];
+        const allDates = [];
+        for (const scientist of elements.scientistsArr) {
+          const neededElem = scientist.lastChild;
+          const date = parseInt(neededElem.textContent)
+          allDates.push(date);
+        }
+        buttons[index].arr.forEach((item) => {
+          const answer = document.createElement("p");
+          answer.classList.add("scientist-answer");
+          const date = Number.parseInt(item.lastChild.textContent);
+          const clue = document.createElement("p");
+          clue.classList.add("clue-text");
+          buttons[index].clueArr.push(clue);
+          dates.push(date);
+          item.append(clue);
+        })
+
+        let biggestDate = 0;
+          for (const date of allDates) {
+            date > biggestDate ? biggestDate = date : biggestDate = biggestDate;
+        }
+
+        for (let i = 0; i < buttons[index].arr.length; i += 1) {
+          dates[i] === biggestDate ? buttons[index].arr[i].classList.add("true") : buttons[index].arr[i].classList.add("false");
+          dates[i] === biggestDate ? buttons[index].clueArr[i].textContent = "Правильно!" : buttons[index].clueArr[i].textContent = "Неправильно!";
+          }
+
+          elements.scientistsArr.forEach((item) => {
+            item.removeEventListener("click", functions.pickCardFunction);
+            item.style.cursor = "auto";
+          });
+
+        elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
+        elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
+
+      }
     },
     // 
     {
@@ -315,6 +424,9 @@ const buttons = [
       num: 4,
       arr: [],
       clueArr: [],
+      checkCardFunction() {
+
+      },
     },
     // 
     {
@@ -322,6 +434,44 @@ const buttons = [
       num: 5,
       arr: [],
       clueArr: [],
+      checkCardFunction() {
+        const index = elements.buttons.indexOf(elements.pickedButton);
+        elements.pickedButton.textContent = "Вийти";
+        buttons[index].arr.forEach((item) => {
+          const answer = document.createElement("p");
+          answer.classList.add("scientist-answer");
+          const nameArr = item.firstChild.textContent.split(" ");
+          const scientistName = nameArr[1];
+          console.log(scientistName[0])
+          const clue = document.createElement("p");
+          clue.classList.add("clue-text");
+          buttons[index].clueArr.push(clue);
+          if (scientistName[0] === "C") {
+            item.classList.add("true");
+            clue.textContent = "Правильно!";
+          } else {
+            item.classList.add("false");
+            clue.textContent = "Неправильно!";
+          }
+          item.append(clue);
+        })
+        elements.scientistsArr.forEach((item) => {
+          item.style.cursor = "auto";
+          const nameArr = item.firstChild.textContent.split(" ");
+          const scientistName = nameArr[1];
+          if (scientistName[0] === "C" && !item.classList.contains("true")) {
+            item.classList.add("didnt-pick");
+            const clue = document.createElement("p");
+            clue.classList.add("clue-text");
+            buttons[index].clueArr.push(clue);
+            clue.textContent = "Забув вибрати";
+            item.append(clue);
+          }
+          item.removeEventListener("click", functions.pickCardFunction);
+        })
+        elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
+        elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
+      },
     },
     // 
     {
@@ -329,6 +479,43 @@ const buttons = [
       num: 6,
       arr: [],
       clueArr: [],
+      checkCardFunction() {
+        const index = elements.buttons.indexOf(elements.pickedButton);
+        elements.pickedButton.textContent = "Вийти";
+        buttons[index].arr.forEach((item) => {
+          const answer = document.createElement("p");
+          answer.classList.add("scientist-answer");
+          const nameArr = item.firstChild.textContent.split(" ");
+          const scientistName = nameArr[0];
+          const clue = document.createElement("p");
+          clue.classList.add("clue-text");
+          buttons[index].clueArr.push(clue);
+          if (scientistName[0] === "A") {
+            item.classList.add("true");
+            clue.textContent = "Правильно!";
+          } else {
+            item.classList.add("false");
+            clue.textContent = "Неправильно!";
+          }
+          item.append(clue);
+        })
+        elements.scientistsArr.forEach((item) => {
+          item.style.cursor = "auto";
+          const nameArr = item.firstChild.textContent.split(" ");
+          const scientistName = nameArr[0];
+          if (scientistName[0] === "A" && !item.classList.contains("true")) {
+            item.classList.add("didnt-pick");
+            const clue = document.createElement("p");
+            clue.classList.add("clue-text");
+            buttons[index].clueArr.push(clue);
+            clue.textContent = "Забув вибрати";
+            item.append(clue);
+          }
+          item.removeEventListener("click", functions.pickCardFunction);
+        })
+        elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
+        elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
+      },
     },
     // 
     {
@@ -336,6 +523,65 @@ const buttons = [
       num: 7,
       arr: [],
       clueArr: [],
+      checkCardFunction() {
+        const index = elements.buttons.indexOf(elements.pickedButton);
+        elements.pickedButton.textContent = "Вийти";
+        const trueList = [];
+        elements.scientistsArr.forEach((item) => {
+          const i = elements.scientistsArr.indexOf(item);
+          const years = scientists[i].dead - scientists[i].born;
+          trueList.push(years);
+        });
+        trueList.sort();
+        
+        let longestLife = 0;
+        let shortestLife = 1000;
+
+        for (const scientist of scientists) {
+          const lifeYears = scientist.dead - scientist.born;
+          lifeYears > longestLife ? longestLife = lifeYears : longestLife = longestLife;
+          lifeYears < shortestLife ? shortestLife = lifeYears : shortestLife = shortestLife;
+        }
+        console.log(`longestLife: ${longestLife}`);
+        console.log(`shortestLife:${shortestLife}`);
+          
+          for (let i = 0; i < buttons[index].arr.length; i += 1) {
+            const name = buttons[index].arr[i].firstChild.textContent;
+            const neededObj = scientists.find((item) => {
+              const objName = `${item.name} ${item.surname}`;
+              return name === objName;
+            })
+            const clue = document.createElement("p");
+            clue.classList.add("true-clue-text");
+            buttons[index].clueArr.push(clue);
+            const neededAge = neededObj.dead - neededObj.born;
+            if (neededAge === longestLife || neededAge === shortestLife) {
+              buttons[index].arr[i].classList.add("true");
+                if (neededAge === longestLife && neededAge !== shortestLife) {
+                  clue.textContent = "Найдовше";
+                } else if (neededAge === shortestLife && neededAge !== longestLife) {
+                  clue.textContent = "Найменше";
+                }     
+            } else {
+              buttons[index].arr[i].classList.add("false");
+              clue.textContent = "Неправильно!";
+            }
+            const text = Array.from(document.querySelectorAll(`li > .scientist-year`));
+            text.forEach((item) => {
+              item.style.display = "block";
+              item.classList.add("clue-text");
+            })
+            
+            buttons[index].arr[i].append(clue);
+          }
+          elements.scientistsArr.forEach((item) => {
+            item.removeEventListener("click", functions.pickCardFunction);
+            item.style.cursor = "auto";
+          })
+          
+        elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
+        elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
+      }
     },
     // 
     {
@@ -343,6 +589,45 @@ const buttons = [
       num: 8,
       arr: [],
       clueArr: [],
+      checkCardFunction() {
+        const index = elements.buttons.indexOf(elements.pickedButton);
+        elements.pickedButton.textContent = "Вийти";
+        buttons[index].arr.forEach((item) => {
+          const answer = document.createElement("p");
+          answer.classList.add("scientist-answer");
+          const nameArr = item.firstChild.textContent.split(" ");
+          const scientistName = nameArr[0];
+          const scientistSurname = nameArr[1];
+          const clue = document.createElement("p");
+          clue.classList.add("clue-text");
+          buttons[index].clueArr.push(clue);
+          if (scientistName[0] === scientistSurname[0]) {
+            item.classList.add("true");
+            clue.textContent = "Правильно!";
+          } else {
+            item.classList.add("false");
+            clue.textContent = "Неправильно!";
+          }
+          item.append(clue);
+        })
+        elements.scientistsArr.forEach((item) => {
+          item.style.cursor = "auto";
+          const nameArr = item.firstChild.textContent.split(" ");
+          const scientistName = nameArr[0];
+          const scientistSurname = nameArr[1];
+          if (scientistName[0] === scientistSurname[0] && !item.classList.contains("true")) {
+            item.classList.add("didnt-pick");
+            const clue = document.createElement("p");
+            clue.classList.add("clue-text");
+            buttons[index].clueArr.push(clue);
+            clue.textContent = "Забув вибрати";
+            item.append(clue);
+          }
+          item.removeEventListener("click", functions.pickCardFunction);
+        })
+        elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
+        elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
+      },
     }
 ];
   
@@ -354,7 +639,6 @@ function switchCardFunction(event) {
   if (event.target.nodeName !== "BUTTON") {
     return
   }
-
   elements.pickedButton = event.target;
   if (elements.pickedButton.classList.contains("asd")) {
     elements.pickedButton.classList.toggle("asd");
@@ -372,6 +656,16 @@ function switchCardFunction(event) {
     item.style.cursor = "pointer";
     if (btnIndex === 1 || btnIndex === 2) {
       item.addEventListener("click", functions.putCardOnListFunction);
+    } else if (btnIndex === 4) {
+      item.style.cursor = "auto";
+      elements.buttons.forEach((button) => button.toggleAttribute("disabled"));
+      elements.buttons[btnIndex].toggleAttribute("disabled");
+      event.target.innerHTML = `
+      <input class="scientist-input" name="scientist-input" ></input>
+      Перевірити
+      `
+      event.target.addEventListener("click", functions.addInputFunction);
+      return
     } else {
       item.addEventListener("click", functions.pickCardFunction);
     }
