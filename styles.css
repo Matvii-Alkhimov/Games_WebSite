@@ -54,10 +54,13 @@ img {
     width: 100%;
     padding-top: 36px;
     padding-bottom: 36px;
-    /* border-top: 1px solid #000000; */
     position: relative;
     z-index: 2;
     background-color: #FFFFFF;
+}
+
+.section.isNotActive {
+    display: none;
 }
 
 .container{
@@ -75,7 +78,6 @@ img {
     height: 100%;
     display: flex;
     align-items: center;
-    /* outline: 2px black solid; */
     padding-right: 175px;
     padding-left: 175px;
     background-color: #FFFFFF;
@@ -99,26 +101,51 @@ img {
     justify-content: space-between;
     font-size: 12px;
     line-height: 15px;
+    
 }
 
-.interactive-button {
-    width: 15px;
-    height: 11px;
+.interactive-link::after {
+    content: "";
+    display: inline-block;
+    background-position: center;
+    width: 9px;
+    height: 5px;
+    background-image: url("./images_and_icons/icons/burger-menu.svg");
+}
+
+.nav-item-interactive {
+    position: relative;
+}
+
+.burger-menu {
+    width: 160px;
+    height: 105px;
+    display: none;
+    position: absolute;
+    left: -35%;
+    border-radius: 0px 0px 20px 20px;
+    border: 1px black solid;
+    overflow: hidden;
+}
+
+.burger-menu-item {
+    height: calc(105px / 3);
+}
+
+.burger-menu-link {
     display: inline-flex;
-    cursor: pointer;
-    padding: 0;
-    border: none;
-    background-color: white;
-}
-
-.interactive-svg {
-    width: 100%;
     height: 100%;
-    fill: black;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 }
 
-.interactive-svg > path {
-    scale: 1.5;
+.burger-menu-link.picked {
+    background: #F1F1F1;
+}
+
+.burger-menu.isOpen {
+    display: block;
 }
 
 .light-mode-button {
@@ -269,18 +296,6 @@ img {
     width: 230px;
     transition: all 250ms linear;
 }
-
-/* .leap-year-text .true,
-.guess-number-text .true {
-    color: limegreen;
-}
-
-.leap-year-text .false,
-.guess-number-text .false {
-    color: red;
-} */
-
-/* Rock-paper-scissors */
 
 .Rock-paper-scissors-container {
     margin-left: 220px;
@@ -983,4 +998,55 @@ img {
 
 .wrong-answer {
     text-decoration: line-through;
+}
+
+/* Footer */
+
+.section-footer {
+    /* border-top: 2px black solid; */
+    background-color: white;
+    padding: 60px 175px;
+}
+
+.container-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container-footer > .logo-link {
+    width: 165px;
+    height: 70px;
+}
+
+.container-footer use {
+    scale: 2;
+}
+
+.contact-list {
+    font-size: 12px;
+line-height: 170%;
+}
+
+.footer-form__input {
+    border: none;
+    background: #D7D7D7;
+    border-radius: 20px;
+    padding: 10px 80px 10px 10px;
+}
+
+.footer-form__button {
+    background: #000000;
+    border-radius: 20px;
+    border: none;
+    padding: 10px;
+    color: white;
+    margin-left: 36px;
+    cursor: pointer;
+}
+
+.footer-form__text {
+    font-size: 7px;
+    line-height: 7px;
+    margin-top: 18px;
 }

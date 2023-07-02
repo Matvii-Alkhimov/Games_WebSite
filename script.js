@@ -280,7 +280,6 @@ const games = [
         elements.operations.forEach((item) => item.addEventListener("click", pickOperationFunction));
         const calculateFunction = (event) => {
           event.preventDefault();
-          // const operation = elements.operations.find((item) => item.classList.contains("picked-operation"));
           const index = elements.operations.findIndex((item) => item.classList.contains("picked-operation"));
           if (elements.operationsSumbols[index] === "+") {
             result.textContent = Number(event.currentTarget.elements.num1.value) + Number(event.currentTarget.elements.num2.value);
@@ -328,7 +327,6 @@ const games = [
           option.textContent = `${value}`;
           option.value = value;
           select.append(option);
-          // timeValuesArr.push(option);
         })
 
         form.classList.add("time-calc-form");
@@ -578,7 +576,6 @@ const games = [
                       text.textContent = "Комп'ютер виграв раунд!";
                       startButton.textContent = "Заново";
                       startButton.removeAttribute("disabled");
-                      // aiPickButton.toggleAttribute("disabled");
                       elements.tttArr.forEach((item) => item.classList.remove("ai-button-picked"));
                       aiPickButton.removeEventListener("click", TicTacToeAiPickFunction);
                       return
@@ -725,7 +722,9 @@ games.forEach((game) => {
 
     section.classList.add("section");
     section.classList.add(`${game.name}-section`);
+    section.id = `${game.name}-section`;
     container.classList.add(`${game.name}-container`);
+    section.dataset.type = game.category;
 
     elements.sections.push(section);
     elements.containers.push(container);

@@ -20,21 +20,30 @@
                     </svg>
                 </a>
                 <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            Інтерактив
-                            <button class="interactive-button">
-                                <svg class="interactive-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                                    <path d="M9 12c0.278 0 0.555 0.116 0.753 0.341l6.247 7.14 6.247-7.14c0.364-0.416 0.995-0.458 1.411-0.094s0.458 0.995 0.094 1.411l-7 8c-0.19 0.217-0.464 0.341-0.753 0.341s-0.563-0.125-0.753-0.341l-7-8c-0.364-0.416-0.322-1.047 0.094-1.411 0.19-0.166 0.424-0.247 0.658-0.247z"></path>
-                                </svg>
-                            </button>
+                    <li class="nav-item nav-item-interactive">
+                        <a href="" class="nav-link interactive-link">
+                            Інтерактив     
                         </a>
+                        <div class="burger-menu">
+                            <ul class="burger-menu-list">
+                                <li class="burger-menu-item">
+                                    <a href="" class="burger-menu-link">Числовий</a>
+                                </li>
+                                <li class="burger-menu-item">
+                                    <a href="" class="burger-menu-link">Ігровий</a>
+                                </li>
+                                <li class="burger-menu-item">
+                                    <a href="" class="burger-menu-link">Ознайомчий</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="#Team-section" class="nav-link">Наша команда</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Наша команда</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">Контакти</a>
+                        <a href="#contacts-section" class="nav-link">Контакти</a>
                     </li>
                 </ul>
                 <button class="light-mode-button">
@@ -50,12 +59,59 @@
     <main class="main">
         <article class="main-title-article">
             <h1 class="main-title">Популярні інтерактивні ігри</h1>
-        </article>
-        
+        </article>    
     </main>
-
+    <footer>
+        <section class="section-footer" id="contacts-section">
+            <div class="container-footer container">
+                <a href="" class="logo-link">
+                    <svg class="logo-svg">
+                        <use href="./images_and_icons/icons/symbol-defs.svg#icon-logo"></use>
+                    </svg>
+                </a>
+                <ul class="contact-list">
+                    <li class="contact-item">
+                        <p class="contact-text">
+                            Тел: 
+                            <a href="tel:+381234567890" class="contact-link">+38 (123) 456 78 90</a>
+                        </p>
+                    </li>
+                    <li class="contact-item">
+                        <p class="contact-text">
+                            E-Mail: 
+                            <a href="mailto:codingmagic@gmail.com" class="contact-link">codingmagic@gmail.com</a>
+                        </p>
+                    </li>
+                    <li class="contact-item">
+                        <p class="contact-text">
+                            Facebook: 
+                            <a href="" class="contact-link">CodingMagic</a>
+                        </p>
+                    </li>
+                    <li class="contact-item">
+                        <p class="contact-text">
+                            Twitter: 
+                            <a href="" class="contact-link">CodingMagic</a>
+                        </p>
+                    </li>
+                    <li class="contact-item">
+                        <p class="contact-text">
+                            Instagram: 
+                            <a href="" class="contact-link">CodingMagic</a>
+                        </p>
+                    </li>
+                </ul>
+                <form action="" class="footer-form">
+                    <input placeholder="Ваша ел. адреса..." type="text" class="footer-form__input">
+                    <button class="footer-form__button">Підписатись</button>
+                    <p class="footer-form__text">*Підписавшись, Ви зможете ортимувати інформаццію про новинки на сайті</p>
+                </form>
+            </div>
+        </section>
+    </footer>
     <script src="./script.js" type="module"></script>
     <script src="./team.js" type="module"></script>
     <script src="./scientists.js" type="module"></script>
+    <script src="./other.js" type="module"></script>
 </body>
 </html>
