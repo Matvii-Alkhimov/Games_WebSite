@@ -87,8 +87,8 @@ const scientists = [
 ];
 
 const elements = {
-    ScientistContainer: document.querySelector(".Scientist-container"),
-    ScientistsList: document.createElement("ul"),
+    scientistContainer: document.querySelector(".Scientist-container"),
+    scientistsList: document.createElement("ul"),
     scientistsArr: [],
     buttonsContainerEl: document.createElement("div"),
     scientistImagesArr: [],
@@ -101,6 +101,10 @@ elements.buttonsContainerEl.classList.add("buttons-container");
 scientists.forEach((item) => {
     const scientistsItem = document.createElement("li");
     scientistsItem.classList.add("scientist-item", `${item.name}_${item.surname}`);
+    scientistsItem.dataset.name = item.name;
+    scientistsItem.dataset.surname = item.surname;
+    scientistsItem.dataset.born = item.born;
+    scientistsItem.dataset.dead = item.dead;
 
     const scientistName = document.createElement("p");
     scientistName.classList.add("scientist-text", "scientist-name");
@@ -111,17 +115,17 @@ scientists.forEach((item) => {
     scientistYears.textContent = `${item.born} - ${item.dead}`;
 
     scientistsItem.append(scientistName, scientistYears);
-    elements.ScientistsList.append(scientistsItem);
+    elements.scientistsList.append(scientistsItem);
     elements.scientistsArr.push(scientistsItem);
 })
 
-elements.ScientistContainer.append(elements.ScientistsList);
-elements.ScientistsList.classList.add("scientists-list");
+elements.scientistContainer.append(elements.scientistsList);
+elements.scientistsList.classList.add("scientists-list");
 
 const taskText = document.createElement("p");
 taskText.textContent = "Обери завдання";
 taskText.classList.add("task-text");
-elements.ScientistsList.before(taskText);
+elements.scientistsList.before(taskText);
 
 
 
@@ -134,54 +138,57 @@ const functions = {
     button.classList.add(i.num);
 
     elements.buttonsContainerEl.append(button);
-    elements.ScientistContainer.append(elements.buttonsContainerEl);
+    elements.scientistContainer.append(elements.buttonsContainerEl);
   },
   pickCardFunction(event) {
-    const index = elements.buttons.indexOf(elements.pickedButton)
+    const index = elements.buttons.indexOf(elements.pickedButton);
+    const { arr, clueArr } = buttons[index];
     if (!event.target.classList.contains("scientist-item-picked")) {
-      buttons[index].arr.push(event.target);
+      arr.push(event.target);
       event.target.classList.add("scientist-item-picked");
     } else {
       event.target.classList.remove("scientist-item-picked");
-      buttons[index].arr.splice(buttons[index].arr.indexOf(event.target), 1)
+      arr.splice(arr.indexOf(event.target), 1)
     }
   },
   putCardOnListFunction(event) {
     if (event.target.nodeName !== "LI") {
       return
     }
-    const index = elements.buttons.indexOf(elements.pickedButton)
+    const index = elements.buttons.indexOf(elements.pickedButton);
+    const { arr, clueArr } = buttons[index];
     if (!event.target.classList.contains("scientist-item-picked")) {
       const clue = document.createElement("p");
       clue.classList.add("clue-text-list");
-      buttons[index].clueArr.push(clue);
-      buttons[index].arr.push(event.target);
-      clue.textContent = buttons[index].arr.length;
+      clueArr.push(clue);
+      arr.push(event.target);
+      clue.textContent = arr.length;
       event.target.classList.add("scientist-item-picked");
       event.target.append(clue);
     } else {
-      const clueIndex = buttons[index].clueArr.indexOf(event.target.lastChild)
+      const clueIndex = clueArr.indexOf(event.target.lastChild)
       const clueToDelete = event.target.lastChild
       event.target.classList.remove("scientist-item-picked");
-      buttons[index].arr.splice(clueIndex, 1);
-      buttons[index].clueArr.splice(clueIndex, 1);
+      arr.splice(clueIndex, 1);
+      clueArr.splice(clueIndex, 1);
       clueToDelete.remove();
-      buttons[index].clueArr.forEach((item) => {
-        item.textContent = buttons[index].clueArr.indexOf(item) + 1;
+      clueArr.forEach((item) => {
+        item.textContent = clueArr.indexOf(item) + 1;
       } )
     }
     
   },
   leaveGameFunction() {
     const index = elements.buttons.indexOf(elements.pickedButton);
-    buttons[index].clueArr.forEach((item) => {
+    const { arr, clueArr, name } = buttons[index];
+    clueArr.forEach((item) => {
       item.remove()
     })
     elements.scientistsArr.forEach((item) => item.classList.remove("true", "false", "didnt-pick", "scientist-item-picked"));
     buttons[index].clueArr = [];
     buttons[index].arr = [];
     elements.scientistsArr.forEach((item) => {
-      taskText.textContent = `Завдання: ${buttons[index].name} `;
+      taskText.textContent = `Завдання: ${name} `;
       const text = Array.from(document.querySelectorAll(`.scientist-text`));
       text.forEach((item) => {
         item.style.display = "block";
@@ -189,7 +196,7 @@ const functions = {
       })
       item.style.animationName = "";
       item.style.backgroundImage = `none`;
-      elements.pickedButton.textContent = buttons[index].name;
+      elements.pickedButton.textContent = name;
     })
     elements.buttons.forEach((item) => item.toggleAttribute("disabled"));
     elements.pickedButton.toggleAttribute("disabled");
@@ -226,16 +233,17 @@ const buttons = [
       arr: [],
       clueArr: [],
       checkCardFunction() {
+        elements.scientistContainer.scrollIntoView({behavior: 'smooth'});
         const index = elements.buttons.indexOf(elements.pickedButton);
+        const { arr, clueArr } = buttons[index];
         elements.pickedButton.textContent = "Вийти";
-        buttons[index].arr.forEach((item) => {
+        arr.forEach((item) => {
           const answer = document.createElement("p");
           answer.classList.add("scientist-answer");
-          const dateEl = item.lastChild;
-          const date = Number.parseInt(dateEl.textContent);
+          const date = item.dataset.born;
           const clue = document.createElement("p");
           clue.classList.add("clue-text");
-          buttons[index].clueArr.push(clue);
+          clueArr.push(clue);
           if (date > 1800 && date < 1900) {
             item.classList.add("true");
             clue.textContent = "Правильно!";
@@ -247,13 +255,12 @@ const buttons = [
         })
         elements.scientistsArr.forEach((item) => {
           item.style.cursor = "auto";
-          const dateEl = item.lastChild;
-          const date = Number.parseInt(dateEl.textContent);
+          const date = item.dataset.born;
           if (date > 1800 && date < 1900 && !item.classList.contains("true")) {
             item.classList.add("didnt-pick");
             const clue = document.createElement("p");
             clue.classList.add("clue-text");
-            buttons[index].clueArr.push(clue);
+            clueArr.push(clue);
             clue.textContent = "Забув вибрати";
             item.append(clue);
           }
@@ -270,20 +277,22 @@ const buttons = [
       arr: [],
       clueArr: [],
       checkCardFunction() {
+        elements.scientistContainer.scrollIntoView({behavior: 'smooth'});
         const index = elements.buttons.indexOf(elements.pickedButton);
-        if (buttons[index].arr.length !== elements.scientistsArr.length) {
+        const { arr, clueArr } = buttons[index];
+        if (arr.length !== elements.scientistsArr.length) {
           return alert("Обери усіх вчених перед тим як перевірити чи правильно ти їх розташував!");
         }
         elements.pickedButton.textContent = "Вийти";
         const trueList = [];
-        buttons[index].arr.forEach((item) => trueList.push(item.firstChild.textContent));
+        arr.forEach((item) => trueList.push(`${item.dataset.name} ${item.dataset.surname}`));
         trueList.sort();
-        buttons[index].arr.forEach((item) => {
+        arr.forEach((item) => {
           
-          for (let i = 0; i < buttons[index].arr.length; i += 1) {
-            const neededClue = buttons[index].arr[i].firstChild.textContent;
+          for (let i = 0; i < arr.length; i += 1) {
+            const neededClue = arr[i].firstChild.textContent;
             const rightAnswer = trueList[i];
-            neededClue === rightAnswer ? buttons[index].arr[i].classList.add("true") : buttons[index].arr[i].classList.add("false");
+            neededClue === rightAnswer ? arr[i].classList.add("true") : arr[i].classList.add("false");
             const text = Array.from(document.querySelectorAll(`li > .scientist-name`));
             text.forEach((item) => {
               item.style.display = "block";
@@ -292,7 +301,7 @@ const buttons = [
             
           }
         })
-        buttons[index].clueArr.forEach((item) => {
+        clueArr.forEach((item) => {
           const parent = item.parentNode;
           const answerPicked = item.textContent;
           const rightAnswer = trueList.findIndex((answer) => answer === parent.firstChild.textContent);
@@ -319,28 +328,30 @@ const buttons = [
       arr: [],
       clueArr: [],
       checkCardFunction() {
+        elements.scientistContainer.scrollIntoView({behavior: 'smooth'});
         const index = elements.buttons.indexOf(elements.pickedButton);
-        if (buttons[index].arr.length !== elements.scientistsArr.length) {
+        const { arr, clueArr } = buttons[index];
+        if (arr.length !== elements.scientistsArr.length) {
           return alert("Обери усіх вчених перед тим як перевірити чи правильно ти їх розташував!");
         }
         elements.pickedButton.textContent = "Вийти";
         const trueList = [];
-        buttons[index].arr.forEach((item) => {
-          const i = buttons[index].arr.indexOf(item);
+        arr.forEach((item) => {
+          const i = arr.indexOf(item);
           const years = scientists[i].dead - scientists[i].born;
           trueList.push(years);
         });
         trueList.sort();
           
-          for (let i = 0; i < buttons[index].arr.length; i += 1) {
-            const name = buttons[index].arr[i].firstChild.textContent;
+          for (let i = 0; i < arr.length; i += 1) {
+            const name = arr[i].firstChild.textContent;
             const neededObj = scientists.find((item) => {
               const objName = `${item.name} ${item.surname}`;
               return name === objName;
             })
             const neededAge = neededObj.dead - neededObj.born;
             const rightAnswer = trueList[i];
-            neededAge === rightAnswer ? buttons[index].arr[i].classList.add("true") : buttons[index].arr[i].classList.add("false");
+            neededAge === rightAnswer ? arr[i].classList.add("true") : arr[i].classList.add("false");
             const text = Array.from(document.querySelectorAll(`li > .scientist-year`));
             text.forEach((item) => {
               item.style.display = "block";
@@ -348,7 +359,7 @@ const buttons = [
             })
             
           }
-        buttons[index].clueArr.forEach((item) => {
+        clueArr.forEach((item) => {
           const parent = item.parentNode;
           const text = parent.firstChild.textContent;
           const answerPicked = item.textContent;
@@ -378,7 +389,9 @@ const buttons = [
       arr: [],
       clueArr: [],
       checkCardFunction() {
+        elements.scientistContainer.scrollIntoView({behavior: 'smooth'});
         const index = elements.buttons.indexOf(elements.pickedButton);
+        const { arr, clueArr } = buttons[index];
         elements.pickedButton.textContent = "Вийти";
         const dates = [];
         const allDates = [];
@@ -387,13 +400,13 @@ const buttons = [
           const date = parseInt(neededElem.textContent)
           allDates.push(date);
         }
-        buttons[index].arr.forEach((item) => {
+        arr.forEach((item) => {
           const answer = document.createElement("p");
           answer.classList.add("scientist-answer");
           const date = Number.parseInt(item.lastChild.textContent);
           const clue = document.createElement("p");
           clue.classList.add("clue-text");
-          buttons[index].clueArr.push(clue);
+          clueArr.push(clue);
           dates.push(date);
           item.append(clue);
         })
@@ -403,15 +416,26 @@ const buttons = [
             date > biggestDate ? biggestDate = date : biggestDate = biggestDate;
         }
 
-        for (let i = 0; i < buttons[index].arr.length; i += 1) {
-          dates[i] === biggestDate ? buttons[index].arr[i].classList.add("true") : buttons[index].arr[i].classList.add("false");
-          dates[i] === biggestDate ? buttons[index].clueArr[i].textContent = "Правильно!" : buttons[index].clueArr[i].textContent = "Неправильно!";
-          }
+        for (let i = 0; i < arr.length; i += 1) {
+          dates[i] === biggestDate ? arr[i].classList.add("true") : arr[i].classList.add("false");
+          dates[i] === biggestDate ? clueArr[i].textContent = "Правильно!" : clueArr[i].textContent = "Неправильно!";
+        }
 
-          elements.scientistsArr.forEach((item) => {
-            item.removeEventListener("click", functions.pickCardFunction);
-            item.style.cursor = "auto";
-          });
+        const neededScientist = elements.scientistsArr.find((scientist) => Number(scientist.dataset.born) === biggestDate)
+
+        if (!neededScientist.classList.contains("true")) {
+          neededScientist.classList.add("didnt-pick");
+          const clue = document.createElement("p");
+          clue.classList.add("clue-text");
+          clueArr.push(clue);
+          clue.textContent = "Правильна відповідь";
+          neededScientist.append(clue);
+        }
+
+        elements.scientistsArr.forEach((item) => {
+          item.removeEventListener("click", functions.pickCardFunction);
+          item.style.cursor = "auto";
+        });
 
         elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
         elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
@@ -435,17 +459,18 @@ const buttons = [
       arr: [],
       clueArr: [],
       checkCardFunction() {
+        elements.scientistContainer.scrollIntoView({behavior: 'smooth'});
         const index = elements.buttons.indexOf(elements.pickedButton);
+        const { arr, clueArr } = buttons[index];
         elements.pickedButton.textContent = "Вийти";
-        buttons[index].arr.forEach((item) => {
+        arr.forEach((item) => {
           const answer = document.createElement("p");
           answer.classList.add("scientist-answer");
-          const nameArr = item.firstChild.textContent.split(" ");
-          const scientistName = nameArr[1];
-          console.log(scientistName[0])
+          const scientistName = item.dataset.surname;
+          // console.log(scientistName[0])
           const clue = document.createElement("p");
           clue.classList.add("clue-text");
-          buttons[index].clueArr.push(clue);
+          clueArr.push(clue);
           if (scientistName[0] === "C") {
             item.classList.add("true");
             clue.textContent = "Правильно!";
@@ -457,13 +482,12 @@ const buttons = [
         })
         elements.scientistsArr.forEach((item) => {
           item.style.cursor = "auto";
-          const nameArr = item.firstChild.textContent.split(" ");
-          const scientistName = nameArr[1];
+          const scientistName = item.dataset.surname;
           if (scientistName[0] === "C" && !item.classList.contains("true")) {
             item.classList.add("didnt-pick");
             const clue = document.createElement("p");
             clue.classList.add("clue-text");
-            buttons[index].clueArr.push(clue);
+            clueArr.push(clue);
             clue.textContent = "Забув вибрати";
             item.append(clue);
           }
@@ -480,16 +504,17 @@ const buttons = [
       arr: [],
       clueArr: [],
       checkCardFunction() {
+        elements.scientistContainer.scrollIntoView({behavior: 'smooth'});
         const index = elements.buttons.indexOf(elements.pickedButton);
+        const { arr, clueArr } = buttons[index];
         elements.pickedButton.textContent = "Вийти";
-        buttons[index].arr.forEach((item) => {
+        arr.forEach((item) => {
           const answer = document.createElement("p");
           answer.classList.add("scientist-answer");
-          const nameArr = item.firstChild.textContent.split(" ");
-          const scientistName = nameArr[0];
+          const scientistName = item.dataset.name;
           const clue = document.createElement("p");
           clue.classList.add("clue-text");
-          buttons[index].clueArr.push(clue);
+          clueArr.push(clue);
           if (scientistName[0] === "A") {
             item.classList.add("true");
             clue.textContent = "Правильно!";
@@ -501,13 +526,12 @@ const buttons = [
         })
         elements.scientistsArr.forEach((item) => {
           item.style.cursor = "auto";
-          const nameArr = item.firstChild.textContent.split(" ");
-          const scientistName = nameArr[0];
+          const scientistName = item.dataset.name;
           if (scientistName[0] === "A" && !item.classList.contains("true")) {
             item.classList.add("didnt-pick");
             const clue = document.createElement("p");
             clue.classList.add("clue-text");
-            buttons[index].clueArr.push(clue);
+            clueArr.push(clue);
             clue.textContent = "Забув вибрати";
             item.append(clue);
           }
@@ -524,60 +548,71 @@ const buttons = [
       arr: [],
       clueArr: [],
       checkCardFunction() {
+        elements.scientistContainer.scrollIntoView({behavior: 'smooth'});
         const index = elements.buttons.indexOf(elements.pickedButton);
+        const { arr, clueArr } = buttons[index];
         elements.pickedButton.textContent = "Вийти";
         const trueList = [];
-        elements.scientistsArr.forEach((item) => {
-          const i = elements.scientistsArr.indexOf(item);
-          const years = scientists[i].dead - scientists[i].born;
+        elements.scientistsArr.forEach((scientist) => {
+          const years = scientist.dataset.dead - scientist.dataset.born;
           trueList.push(years);
         });
         trueList.sort();
+        console.log(trueList)
         
-        let longestLife = 0;
-        let shortestLife = 1000;
+        const shortestLife = trueList[0];
+        const longestLife = trueList[trueList.length - 1];
 
-        for (const scientist of scientists) {
-          const lifeYears = scientist.dead - scientist.born;
-          lifeYears > longestLife ? longestLife = lifeYears : longestLife = longestLife;
-          lifeYears < shortestLife ? shortestLife = lifeYears : shortestLife = shortestLife;
-        }
         console.log(`longestLife: ${longestLife}`);
         console.log(`shortestLife:${shortestLife}`);
-          
-          for (let i = 0; i < buttons[index].arr.length; i += 1) {
-            const name = buttons[index].arr[i].firstChild.textContent;
-            const neededObj = scientists.find((item) => {
-              const objName = `${item.name} ${item.surname}`;
-              return name === objName;
-            })
-            const clue = document.createElement("p");
-            clue.classList.add("true-clue-text");
-            buttons[index].clueArr.push(clue);
-            const neededAge = neededObj.dead - neededObj.born;
-            if (neededAge === longestLife || neededAge === shortestLife) {
-              buttons[index].arr[i].classList.add("true");
-                if (neededAge === longestLife && neededAge !== shortestLife) {
-                  clue.textContent = "Найдовше";
-                } else if (neededAge === shortestLife && neededAge !== longestLife) {
-                  clue.textContent = "Найменше";
-                }     
-            } else {
-              buttons[index].arr[i].classList.add("false");
-              clue.textContent = "Неправильно!";
-            }
-            const text = Array.from(document.querySelectorAll(`li > .scientist-year`));
+
+        arr.forEach((scientist) => {
+          const clue = document.createElement("p");
+          clue.classList.add("true-clue-text");
+          clueArr.push(clue);
+
+          const neededAge = scientist.dataset.dead - scientist.dataset.born;
+          if (neededAge === longestLife) {
+            scientist.classList.add("true");
+            clue.textContent = "Найдовше";
+          } else if (neededAge === shortestLife) {
+            scientist.classList.add("true");
+            clue.textContent = "Найменше";
+          } else {
+            scientist.classList.add("false");
+            clue.textContent = "Неправильно!";
+          }
+
+          const text = Array.from(document.querySelectorAll(`li > .scientist-year`));
             text.forEach((item) => {
               item.style.display = "block";
               item.classList.add("clue-text");
             })
             
-            buttons[index].arr[i].append(clue);
+            scientist.append(clue);
+        })
+
+        elements.scientistsArr.forEach((scientist) => {
+          if (!scientist.classList.contains("true")) {
+            const lifeYears = scientist.dataset.dead - scientist.dataset.born;
+            const clue = document.createElement("p");
+              clue.classList.add("true-clue-text");
+              clueArr.push(clue);
+              scientist.prepend(clue)
+            if (lifeYears === shortestLife) {
+              scientist.classList.add("didnt-pick");
+              clue.textContent = "Найменше";
+            } else if (lifeYears === longestLife) {
+              scientist.classList.add("didnt-pick");
+              clue.textContent = "Найдовше";
+            }
           }
-          elements.scientistsArr.forEach((item) => {
-            item.removeEventListener("click", functions.pickCardFunction);
-            item.style.cursor = "auto";
-          })
+        })
+          
+        elements.scientistsArr.forEach((item) => {
+          item.removeEventListener("click", functions.pickCardFunction);
+          item.style.cursor = "auto";
+        })
           
         elements.pickedButton.removeEventListener("click", buttons[index].checkCardFunction);
         elements.pickedButton.addEventListener("click", functions.leaveGameFunction);
@@ -590,17 +625,18 @@ const buttons = [
       arr: [],
       clueArr: [],
       checkCardFunction() {
+        elements.scientistContainer.scrollIntoView({behavior: 'smooth'});
         const index = elements.buttons.indexOf(elements.pickedButton);
+        const { arr, clueArr } = buttons[index];
         elements.pickedButton.textContent = "Вийти";
-        buttons[index].arr.forEach((item) => {
+        arr.forEach((item) => {
           const answer = document.createElement("p");
           answer.classList.add("scientist-answer");
-          const nameArr = item.firstChild.textContent.split(" ");
-          const scientistName = nameArr[0];
-          const scientistSurname = nameArr[1];
+          const scientistName = item.dataset.name;
+          const scientistSurname = item.dataset.surname;
           const clue = document.createElement("p");
           clue.classList.add("clue-text");
-          buttons[index].clueArr.push(clue);
+          clueArr.push(clue);
           if (scientistName[0] === scientistSurname[0]) {
             item.classList.add("true");
             clue.textContent = "Правильно!";
@@ -612,14 +648,13 @@ const buttons = [
         })
         elements.scientistsArr.forEach((item) => {
           item.style.cursor = "auto";
-          const nameArr = item.firstChild.textContent.split(" ");
-          const scientistName = nameArr[0];
-          const scientistSurname = nameArr[1];
+          const scientistName = item.dataset.name;
+          const scientistSurname = item.dataset.surname;
           if (scientistName[0] === scientistSurname[0] && !item.classList.contains("true")) {
             item.classList.add("didnt-pick");
             const clue = document.createElement("p");
             clue.classList.add("clue-text");
-            buttons[index].clueArr.push(clue);
+            clueArr.push(clue);
             clue.textContent = "Забув вибрати";
             item.append(clue);
           }
@@ -639,6 +674,7 @@ function switchCardFunction(event) {
   if (event.target.nodeName !== "BUTTON") {
     return
   }
+  elements.scientistContainer.scrollIntoView({behavior: 'smooth'});
   elements.pickedButton = event.target;
   if (elements.pickedButton.classList.contains("asd")) {
     elements.pickedButton.classList.toggle("asd");
@@ -652,7 +688,7 @@ function switchCardFunction(event) {
     const text = Array.from(document.querySelectorAll(`.scientist-text`));
     text.forEach((item) => item.style.display = "none")
     item.style.animationName = "showImages";
-    item.style.backgroundImage = `url(./images_and_icons/images/scientists/${scientists[index].name}_${scientists[index].surname}.jpg)`;
+    item.style.backgroundImage = `url(../images_and_icons/images/scientists/${scientists[index].name}_${scientists[index].surname}.jpg)`;
     item.style.cursor = "pointer";
     if (btnIndex === 1 || btnIndex === 2) {
       item.addEventListener("click", functions.putCardOnListFunction);

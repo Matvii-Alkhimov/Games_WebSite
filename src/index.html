@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GAMES</title>
+    <link rel="shortcut icon" href="../images_and_icons/icons/game-development.svg">
     <link rel="stylesheet" href="./styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +17,7 @@
             <div class="container-header container">
                 <a href="" class="logo-link">
                     <svg class="logo-svg">
-                        <use href="./images_and_icons/icons/symbol-defs.svg#icon-logo"></use>
+                        <use href="../images_and_icons/icons/symbol-defs.svg#icon-logo"></use>
                     </svg>
                 </a>
                 <ul class="nav-list">
@@ -38,7 +39,6 @@
                             </ul>
                         </div>
                     </li>
-                    
                     <li class="nav-item">
                         <a href="#Team-section" class="nav-link">Наша команда</a>
                     </li>
@@ -51,7 +51,7 @@
                 </button>
                 <p class="header-name-text">
                     Вітаємо,
-                    <span class="name-span">User!</span>
+                    <span class="name-span">User</span>!
                 </p>
             </div>
         </section>
@@ -66,7 +66,7 @@
             <div class="container-footer container">
                 <a href="" class="logo-link">
                     <svg class="logo-svg">
-                        <use href="./images_and_icons/icons/symbol-defs.svg#icon-logo"></use>
+                        <use href="../images_and_icons/icons/symbol-defs.svg#icon-logo"></use>
                     </svg>
                 </a>
                 <ul class="contact-list">
@@ -102,16 +102,16 @@
                     </li>
                 </ul>
                 <form action="" class="footer-form">
-                    <input placeholder="Ваша ел. адреса..." type="text" class="footer-form__input">
-                    <button class="footer-form__button">Підписатись</button>
+                    <input name="footerMail" required placeholder="Ваша ел. адреса..." type="mail" class="footer-form__input">
+                    <button type="submit" class="footer-form__button">Підписатись</button>
                     <p class="footer-form__text">*Підписавшись, Ви зможете ортимувати інформаццію про новинки на сайті</p>
                 </form>
             </div>
         </section>
     </footer>
-    <script src="./script.js" type="module"></script>
-    <script src="./team.js" type="module"></script>
-    <script src="./scientists.js" type="module"></script>
-    <script src="./other.js" type="module"></script>
+    <script src="./js/script.js" type="module"></script>
+    <!-- <script src="./team.js" type="module"></script> -->
+    <script src="./js/scientists.js" type="module"></script>
+    <script src="./js/other.js" type="module"></script>
 </body>
 </html>

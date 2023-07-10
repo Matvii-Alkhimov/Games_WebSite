@@ -412,7 +412,10 @@ const games = [
         const secondTitle = document.createElement("h2");
         secondTitle.classList.add("second-title");
         secondTitle.textContent = "Google динозавр";
-        elements.containers[neededIndex].prepend(secondTitle);
+        const thirdTitle = document.createElement("h3");
+        thirdTitle.classList.add("third-title")
+        thirdTitle.textContent = "В розробці...";
+        elements.containers[neededIndex].prepend(secondTitle, thirdTitle);
       }
     },
     {
