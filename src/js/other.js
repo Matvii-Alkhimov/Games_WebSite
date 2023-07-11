@@ -238,7 +238,4 @@ elements.lightModeButtonEl.addEventListener("click", changeModeFunction);
 function changeModeFunction(event) {
     elements.lightModeButtonEl.classList.toggle("darkMode");
     elements.bodyEl.classList.toggle("darkMode");
-
 }
-
-// light-mode-button
