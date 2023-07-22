@@ -1,0 +1,1269 @@
+
+/* Base Styles */
+
+body {
+    font-family: "Montserrat Alternates";
+    font-weight: 600;
+    color: var(--primary-text-color);
+    margin: 0;
+    background-image: url(./images_and_icons/images/Background.png);
+    background-size: cover;
+    background-color: #F5F5F5;
+}
+
+main {
+    padding-right: 175px;
+    padding-left: 175px;
+}
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    transition: all 250ms linear;
+}
+
+h1,
+h2,
+h3,
+p,
+ul{
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    margin: 0;
+    padding: 0;
+    color: var(--primary-text-color);
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.section{
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    background-color: #FFFFFF;
+    box-sizing: content-box;
+    box-sizing: border-box;
+}
+
+.section.isNotActive {
+    display: none;
+}
+
+.section > div {
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.container{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+/* Header */
+
+.section-header {
+    height: 80px;
+    
+}
+
+.container-header {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-right: 175px;
+    padding-left: 175px;
+    background-color: #FFFFFF;
+}
+
+.logo-link {
+    display: inline-block;
+    width: 95px;
+    height: 40px;
+}
+
+.logo-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.nav-list {
+    display: flex;
+    margin-left: 81px;
+    width: 370px;
+    justify-content: space-between;
+    font-size: 12px;
+    line-height: 15px;
+    scroll-behavior: smooth;
+    
+}
+
+.nav-item-interactive {
+    position: relative;
+}
+
+.burger-menu {
+    width: 160px;
+    height: 105px;
+    display: none;
+    position: absolute;
+    left: -35%;
+    border-radius: 0px 0px 20px 20px;
+    border: 1px black solid;
+    overflow: hidden;
+}
+
+.burger-menu-item {
+    height: calc(105px / 3);
+}
+
+.burger-menu-link {
+    display: inline-flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.burger-menu-link.picked {
+    background: #F1F1F1;
+}
+
+.burger-menu.isOpen {
+    display: block;
+}
+
+.light-mode-button {
+    margin-left: 361px;
+    background: gray;
+    border-radius: 11px;
+    border: none;
+    width: 40px;
+    height: 20px;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+}
+
+.light-mode-button-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    background-image: url(./images_and_icons/icons/light-dark-mode/sun.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 15px 15px;
+    border: 1px black solid;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: all 250ms linear;
+}
+
+.light-mode-button:hover > .light-mode-button-circle {
+    left: 20px;
+    background-image: url(./images_and_icons/icons//light-dark-mode/moon.svg);
+    background-color: black;
+}
+
+.header-name-text {
+    margin-left: 51px;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+.main-title-article {
+    background-color: white;
+    padding-bottom: 36px;
+    padding-top: 36px;
+}
+
+.main-title {
+    width: 390px;
+    font-size: 24px;
+    line-height: 29px;
+    margin-right: auto;
+    margin-left: auto;
+    
+}
+
+.second-title {
+    width: 330px;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.third-title {
+    font-size: 10px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Leap-year-calculator and Guess-the-Number */ 
+
+.Leap-year-calculator-section,
+.Guess-the-number-section {
+    padding: 36px 257px;
+    position: relative;
+    z-index: 2;
+}
+
+.Leap-year-calculator-container,
+.Guess-the-number-container {
+    position: relative;
+    height: 100%;
+}
+
+.leap-year-form,
+.guess-number-form {
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+    height: 35px;
+    width: 209px;
+    display: flex;
+    align-items: end;
+    border-radius: 20px;
+    margin-top: 26px;
+    margin-left: 40px;
+}
+
+.guess-number-form {
+    width: 135px;
+}
+
+.leap-year-input,
+.guess-number-input,
+.time-calc-input {
+    padding: 10px;
+    background-color: #D7D7D7;
+    border: none;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 12px;
+    line-height: 15px;
+    color: #7E7E7E;
+    outline: none;
+}
+
+.guess-number-input,
+.time-calc-input {
+    width: 100px;
+}
+
+.leap-year-button,
+.guess-number-button,
+.time-calc-button {
+    padding: 0;
+    border: none;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-image: url(./images_and_icons/icons/search.svg);
+    background-color: black;
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.leap-year-text,
+.guess-number-text,
+.time-calc-text {
+    font-size: 12px;
+    line-height: 15px;
+    position: absolute;
+    z-index: 0;
+    right: 0;
+    top: 46px;
+    width: 230px;
+    transition: all 250ms linear;
+}
+
+.Rock-paper-scissors-container {
+    margin-left: 220px;
+    margin-right: 220px;
+    position: relative;
+}
+
+.rps-list {
+    display: flex;
+    justify-content: space-between;
+    width: 260px;
+    height: 60px;
+    margin-top: 36px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.rps-item {
+    height: 100%;
+    width: 60px;
+    border-radius: 20px;
+}
+
+.rock,
+.paper,
+.scissors {
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 250ms linear;
+}
+
+.rock {
+    background-image: url(./images_and_icons/icons/rock-paper-scissors/stone.svg);
+}
+
+.paper {
+    background-image: url(./images_and_icons/icons/rock-paper-scissors/paper.svg);
+}
+
+.scissors {
+    background-image: url(./images_and_icons/icons/rock-paper-scissors/scissors.svg);
+}
+
+.rps-button {
+    background-size: 40px 40px;
+    background-position: center;
+}
+
+.rps-button:hover {
+    scale: 1.1;
+}
+
+.rps-button-picked {
+    border: 4px gray solid;
+    scale: 1.3;
+}
+
+.rps-button-picked:hover {
+    scale: 1.3;
+}
+
+.rps-button-ai-picked {
+    background-color: #990000;
+}
+
+.rps-text {
+    font-size: 12px;
+    line-height: 15px;
+    width: 220px;
+    text-align: center;
+    margin-top: 36px;
+    margin-right: auto;
+    margin-left: auto;
+    transition: all 250ms linear;
+}
+
+.rps-score {
+    position: absolute;
+    z-index: 0;
+    right: 0;
+    top: 56px;
+    font-size: 12px;
+    line-height: 170%;
+    width: 100px;
+}
+
+.rps-start-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 36px;
+}
+
+.rps-start-button:disabled {
+    background-color: lightgray;
+    color: #2a2a2a;
+    box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.19) inset;
+-webkit-box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.19) inset;
+-moz-box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.19) inset;
+}
+
+/* Calculator */
+
+.Calculator-section {
+    padding: 36px 230px;
+}
+
+.op-form {
+    margin-top: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.op-num1,
+.op-num2,
+.op-result {
+    padding: 10px 20px;
+    width: 95px;
+    height: 15px;
+    box-sizing: content-box;
+    background: #D7D7D7;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+.op-list {
+    height: 80px;
+    width: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -10px;
+    margin-top: -10px;
+}
+
+.op-item {
+    margin-right: 10px;
+    margin-top: 10px;
+    width: calc( ( 100% - 10px * 2 ) / 2 );
+    height: calc( ( 100% - 10px * 2 ) / 2 );
+}
+
+.plus,
+.minus,
+.multiply,
+.divide,
+.op-equal {
+    padding: 0;
+    display: flex;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    background-color: black;
+    font-size: 17px;
+    line-height: 15px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    box-sizing: content-box;
+    transition: all 250ms linear;
+}
+
+.plus,
+.minus,
+.multiply,
+.divide {
+    width: 100%;
+    height: 100%;
+    
+}
+
+.op-equal {
+    width: 30px;
+    height: 30px;
+}
+
+.op-equal:disabled {
+    background-color: gray;
+}
+
+.picked-operation {
+    background-color: white;
+    color: black;
+    border: 2px black solid;
+}
+
+.op-result {
+    font-size: 12px;
+    line-height: 15px;
+    color: #7E7E7E;
+    box-shadow: none;
+    width: min-content;
+}
+
+/* Time-calculator */
+
+.Time-calculator-section {
+    padding: 36px 300px;
+}
+
+.Time-calculator-container {
+    position: relative;
+}
+
+.time-calc-form {
+    margin-top: 36px;
+    display: flex;
+}
+
+.time-calc-select {
+    margin-left: 50px;
+}
+
+.time-calc-text {
+    top: 65px;
+    right: 0;
+}
+
+/* Football */
+
+.Football-section {
+    padding: 36px 185px;
+}
+
+.football-field {
+    width: 100%;
+    height: 260px;
+    box-sizing: border-box;
+    background: #5ABB58;
+    border: 2px solid #000000;
+    border-radius: 37px;
+    margin-top: 36px;
+    cursor: url(./images_and_icons/icons//football/football-cursor.svg), auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.ball {
+    width: 70px;
+    height: 70px;
+    background-image: url(./images_and_icons/icons/football/ball.svg);
+    background-size: cover;
+    border-radius: 50%;
+    position: absolute;
+    left: 92px;
+    top: 85px;
+    transition: all 500ms linear;
+    animation-duration: 500ms;
+    animation-timing-function: linear;
+}
+
+@keyframes ball-moving {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(2) rotate(180deg);
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+    }
+}
+
+@keyframes ball-moving2 {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(2) rotate(180deg);
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+    }
+}
+
+/* Tic-Tac-Toe */
+
+.Tic-Tac-Toe-section {
+    padding: 36px 300px;
+}
+
+.ttt-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 300px;
+    margin-top: 36px;
+    margin-bottom: 25px;
+    margin-right: auto;
+    margin-left: auto;
+    border: 3px black solid;
+}
+
+.ttt-item {
+    width: calc( ( 100% ) / 3 );
+}
+
+.ttt-text {
+    font-weight: 400;
+    font-size: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.ttt-button {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 3px black solid;
+    cursor: pointer;
+    padding: 0;
+}
+
+.ttt-button:disabled {
+    cursor: auto;
+}
+
+.ttt-game-active:hover {
+    background-image: url(./images_and_icons/icons/tic-tac-toe/tic.svg);
+    opacity: 0.5;
+}
+
+.ttt-button-picked {
+    background-image: url(./images_and_icons/icons/tic-tac-toe/tic.svg);
+}
+
+.ttt-button-ai-picked {
+    background-image: url(./images_and_icons/icons/tic-tac-toe/tac.svg);
+}
+
+.ttt-start-button,
+.ttt-ai-pick-button {
+    width: 135px;
+    height: 40px;
+    background: #D7D7D7;
+    color: #7E7E7E;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.ttt-start-button {
+    margin-right: 250px;
+    margin-left: 20px;
+}
+
+.ttt-ai-pick-button:disabled,
+.ttt-start-button:disabled {
+    cursor: auto;
+    background-color: #7E7E7E;
+    color: #D7D7D7;
+}
+
+/* Highest-number */
+
+.Highest-number-section {
+    padding: 36px 305px;
+}
+
+.biggest-number-form {
+    margin-top: 36px;
+    margin-bottom: 36px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.biggest-num-input {
+    width: 135px;
+    height: 35px;
+    background: #D7D7D7;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    padding: 10px 20px;
+    outline: none;
+}
+
+.biggest-num-text {
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+}
+
+/* Team */
+
+.Team-section {
+    padding: 36px 92px;
+}
+
+.Team-container {
+    justify-content: space-between;
+}
+
+.team-list-container {
+    display: flex;
+    margin-top: 36px;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    height: 230px;
+}
+
+.team-button {
+    padding: 0;
+    border: none;
+    width: 50px;
+    height: 100px;
+    cursor: pointer;
+    background-image: url(./images_and_icons/icons/team-buttons/next.svg);
+    background-color: white;
+    background-repeat: no-repeat;
+}
+
+.right-team-button {
+    transform: rotate(180deg);
+}
+
+.team-item {
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 400;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    scale: 1;
+    transform: translate(-50%, -50%);
+    transition: all 1000ms linear;
+}
+
+.team-item-left {
+    opacity: 0;
+    transition: all 1000ms linear;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(50%, -50%) scale(0.5);
+}
+
+.team-item-right {
+    transform: translate(125%, -50%);
+    opacity: 0;
+    transition: all 1000ms linear;
+    scale: 0.5;
+}
+
+.team-item > img {
+    width: 150px;
+    height: 150px;
+    background: #D9D9D9;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.team-item > h3 {
+    font-weight: 400;
+}
+
+.team-title {
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+}
+
+.team-text {
+    margin-top: 20px;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+}
+
+/* @keyframes moveOnRightNew {
+    0% {
+        transform: scale(0.5) translate(50%, -50%);
+    }
+
+    100% {
+        transform: scale(1) translate(-50%, -50%);
+    }
+} */
+
+/* @keyframes moveOnLeftNew {
+    0% {
+        transform: scale(1) translate(-50%, -50%);
+    }
+
+    100% {
+        transform: scale(0.5) translate(50%, -50%);
+    }
+} */
+
+.main-team-cont {
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    width: 220px;
+}
+
+.team-cont {
+    width: 18px;
+    height: 3px;
+    background: #D9D9D9;
+    border-radius: 3px;
+    transition: all 250ms linear;
+}
+
+.team-cont-picked {
+    background: #797979;
+    width: 30px;
+    transition: all 250ms linear;
+}
+
+/* Scientists */
+
+.Scientist-section {
+    padding: 36px 257px;    
+}
+
+.Scientist-section > div {
+    max-width: 600px;
+}
+
+.scientists-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 36px;
+    column-gap: 59px;
+    margin: 26px 0;
+    text-align: center;
+}
+
+.scientist-item {
+    height: 100px;
+    background: #D9D9D9;
+    border-radius: 20px;
+    font-size: 10px;
+    line-height: 170%;
+    display: grid;
+    align-content: center;
+    animation-timing-function: linear;
+    animation-duration: 1000ms;
+    background-size: cover;
+    transition: all 250ms linear;
+    position: relative;
+}
+
+.scientists-btn {
+    background: #000000;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+}
+
+@keyframes showImages {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+/* Scientists Games */
+
+.scientist-item-picked {
+    transform: scale(1.2);
+    transition: all 250ms linear;
+}
+
+.scientist-item-deleted {
+    transform: scale(1.2);
+    transition: all 250ms linear;
+    background-position: center;
+}
+
+.task-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+.buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.scientists-btn {
+    color: white;
+    font-size: 12px;
+    line-height: 15px;
+    width: 440px;
+    height: 35px;
+    border: none;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.true {
+    border: 5px #039900 solid;
+}
+
+.false {
+    border: 5px #990000 solid;
+}
+
+.didnt-pick {
+    border: 5px blue solid;
+    scale: 1.2;
+}
+
+.didnt-pick-list {
+    border: 5px blue solid;
+}
+
+.clue-text {
+    width: 100%;
+    background-color: white;
+}
+
+.true-clue-text {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+}
+
+.clue-text-list {
+    width: 100%;
+    background-color: white;
+}
+
+.wrong-answer {
+    text-decoration: line-through;
+}
+
+/* Footer */
+
+.section-footer {
+    background-color: white;
+    padding: 60px 175px;
+}
+
+.container-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container-footer > .logo-link {
+    width: 165px;
+    height: 70px;
+}
+
+.container-footer use {
+    scale: 2;
+}
+
+.contact-list {
+    font-size: 12px;
+line-height: 170%;
+}
+
+.footer-form__input {
+    border: none;
+    background: #D7D7D7;
+    border-radius: 20px;
+    padding: 10px 80px 10px 10px;
+}
+
+.footer-form__button {
+    background: #000000;
+    border-radius: 20px;
+    border: none;
+    padding: 10px;
+    color: white;
+    margin-left: 36px;
+    cursor: pointer;
+}
+
+.footer-form__text {
+    font-size: 7px;
+    line-height: 7px;
+    margin-top: 18px;
+}
+
+/* Modal Windows */
+
+.backdrop {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.5);
+    background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10; 
+    transition: all 100ms linear;
+}
+
+.backdrop.isNotActive {
+    pointer-events: none;
+    opacity: 0;
+    transition: all 100ms linear;
+}
+
+body.backdrop-active {
+    overflow: hidden;
+}
+
+.modal-window {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    padding: 46px 92px;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    width: 576px;
+    height: 316px;
+    background-image: url(./images_and_icons/icons/modal-svg/sword.svg), url(./images_and_icons/icons/modal-svg/puzzle.svg), url(./images_and_icons/icons/modal-svg/game-development.svg), url(./images_and_icons/icons/modal-svg/tic-tac-toe.svg);
+    background-repeat: no-repeat;
+    /* background-position: 7% 48%, 14% 80%, 93% 52%, 86% 80%; */
+    background-position: 41px 154px, 85px 230px, 505px 154px, 461px 230px;
+    background-size: 40px 40px;
+    border-radius: 20px;
+}
+
+.modal-window__text {
+    color: #000;
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    line-height: normal;
+    margin-bottom: 42px;
+}
+
+.modal-window__form {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 170px;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-window__label {
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    line-height: normal;
+    margin-bottom: 18px;
+}
+
+.modal-window__input {
+    padding: 10px 90px 10px 10px;
+    border-radius: 20px;
+    background: #D7D7D7;
+    border: none;
+    margin-bottom: 18px;
+    width: 170px;
+}
+
+.modal-window__button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: #000;
+    color: white;
+    border: none;
+    box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.modal-window-subscribe {
+    width: 463px;
+    height: 245px;
+    /* background-position: 7% 48%, 14% 80%, 93% 52%, 86% 80%; */
+    background-position: 43px 69px, 87px 145px, 391px 69px, 347px 145px;
+    background-size: 30px 30px;
+}
+
+.modal-window-subscribe > p {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 37px;
+    margin-bottom: 0;
+}
+
+.close-modal-button {
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    border: none;
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    top: 30px;
+    right: 30px;
+    cursor: pointer;
+    transition: all 250ms linear;
+}
+
+.close-modal-button:hover,
+.close-modal-button:focus {
+    rotate: 180deg;
+}
+
+.close-modal-button__svg {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* Dark theme */
+
+.light-mode-button.darkMode > .light-mode-button-circle {
+    left: 20px;
+    background-image: url(./images_and_icons/icons/light-dark-mode/moon.svg);
+    background-color: black;
+}
+
+.light-mode-button.darkMode:hover > .light-mode-button-circle {
+    background-color: white;
+    background-image: url(./images_and_icons/icons/light-dark-mode/sun.svg);
+    left: 0;
+    top: 0;
+}
+
+body.darkMode {
+    background-color: #000;
+    background-image: none;
+}
+
+body.darkMode * {
+    transition: all 250ms linear;
+}
+
+body.darkMode section,
+body.darkMode article,
+body.darkMode .container-header {
+    background-color: rgb(51, 51, 51);
+}
+
+body.darkMode p,
+body.darkMode span,
+body.darkMode a,
+body.darkMode h1,
+body.darkMode h2,
+body.darkMode h3,
+body.darkMode h4 {
+    color: white;
+}
+
+body.darkMode svg {
+    fill: white;
+    background-color: rgb(51, 51, 51);
+}
+
+/* Header Dark Mode */
+
+body.darkMode .interactive-link::after {
+    color: white;
+}
+
+body.darkMode .burger-menu {
+    border: 2px white solid;
+}
+
+body.darkMode .burger-menu-link.picked {
+    color: black;
+}
+
+/* Leap Year and Guess Number Dark Mode */
+
+body.darkMode .leap-year-text,
+body.darkMode .guess-number-text,
+body.darkMode .op-result {
+    background-color: #D7D7D7;
+    border-radius: 10px;
+    color: #000;
+    text-align: center;
+    padding: 5px;
+    box-shadow: rgba(0, 0, 0, 0.25) 3px 3px 0px;
+}
+
+body.darkMode .op-result {
+    padding: 10px;
+    border-radius: 20px;
+}
+
+/* Football Dark Mode */
+
+body.darkMode .football-field {
+    border: 3px white solid;
+}
+
+body.darkMode .ball {
+    transition: all 500ms linear;
+}
+
+/* Tic-Tac-Toe Dark Mode */
+
+body.darkMode .ttt-button {
+    background-color: rgb(135, 126, 126);
+}
+
+body.darkMode .team-button {
+    background-color: rgb(51, 51, 51);
+    background-image: url(./images_and_icons/icons//team-buttons/next-dark.svg);
+    
+}
+
+/* Team Dark Mode */
+
+body.darkMode .team-item {
+    transition: all 1000ms linear;
+}
+
+body.darkMode .team-cont {
+    background-color: #797979;
+}
+
+body.darkMode .team-cont-picked {
+    background-color: white;
+}
+
+/* Scientists Dark Mode */
+
+body.darkMode .scientist-item > p  {
+    color: black;
+}
+
+/* Modal Window Dark Mode */
+
+body.darkMode .modal-window-subscribe > p {
+    color: #000;
+}
+
+body.darkMode .close-modal-button__svg {
+    background-color: white;
+}
